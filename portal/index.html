@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWS SAA-C03 | Portal de Aprendizaje Progresivo</title>
+  <link rel="stylesheet" href="style.css?v=20261116">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="logo-area">
+      <div class="logo-icon">AWS</div>
+      <div class="logo-text">
+        <h1>SAA-C03 Master Portal</h1>
+        <p>Preparación Intensiva • Plan de 4 Semanas con Desbloqueo Progresivo</p>
+      </div>
+    </div>
+
+    <div class="header-progress">
+      <div class="progress-info">
+        <div class="progress-labels">
+          <span id="progress-text">0% Completado</span>
+          <span id="progress-count">0/19 días validados</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-bar-fill"></div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="lang-selector-group" title="Seleccionar Idioma / Select Language">
+          <button class="btn-lang active" id="btn-lang-es" data-lang="es">🇦🇷 Español</button>
+          <button class="btn-lang" id="btn-lang-en" data-lang="en">🇺🇸 English</button>
+        </div>
+        <a href="AWS_SAA-C03_Guia_Maestra_Repaso_Final.pdf" target="_blank" class="btn-secondary" style="background-color:#0F2C59; color:#ffffff; font-weight:bold;" title="Descargar Guía Maestra PDF con Triggers y Reglas de Descarte">📄 Guía Maestra PDF</a>
+        <a href="handbook.pdf" target="_blank" class="btn-secondary" id="btn-handbook-header" title="Handbook Técnico: 119 Servicios de AWS y Triggers de Examen">📚 Handbook (119 Servicios)</a>
+        <a href="simulator/" class="btn-secondary" id="btn-go-simulator-header" title="Abrir Simulador Completo (65 preguntas Pearson VUE)">⏱️ Simulador Oficial</a>
+        <button class="btn-secondary" id="btn-unlock-all" title="Alternar Modo Repaso Libre (Desbloquear todos los días)">🔓 Modo Libre</button>
+        <button class="btn-secondary" id="btn-export-portal" title="Exportar o Importar tu progreso">💾 Respaldo</button>
+        <button class="btn-secondary" id="btn-reset" title="Reiniciar progreso">Reiniciar ↺</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Container -->
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-title">Ruta de Aprendizaje</div>
+      <div id="sidebar-list">
+        <!-- Generado dinámicamente por app.js -->
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Day Header Card -->
+      <div class="day-header-card" id="day-header">
+        <!-- Generado dinámicamente -->
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="view-tabs">
+        <button class="tab-btn active" id="tab-reading">
+          📖 Material de Estudio
+        </button>
+        <button class="tab-btn" id="tab-flashcards">
+          📇 Flashcards Oficiales (44)
+        </button>
+        <button class="tab-btn" id="tab-quiz">
+          📝 Examen de Validación
+        </button>
+      </div>
+
+      <!-- Reading View -->
+      <section id="reading-view">
+        <!-- Generado dinámicamente -->
+      </section>
+
+      <!-- Flashcards View -->
+      <section id="flashcards-view" style="display: none;">
+        <!-- Generado dinámicamente por app.js -->
+      </section>
+
+      <!-- Quiz View -->
+      <section id="quiz-view" style="display: none;">
+        <!-- Generado dinámicamente -->
+      </section>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="content.js?v=20261116"></script>
+  <script src="flashcards.js?v=20261116"></script>
+  <script src="app.js?v=20261116"></script>
+</body>
+</html>

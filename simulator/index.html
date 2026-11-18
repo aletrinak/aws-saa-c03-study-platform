@@ -1,0 +1,1142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AWS SAA-C03 Exam Simulator & Pearson VUE Scoring</title>
+<meta name="description" content="Official blueprint practice exam simulator for the AWS Certified Solutions Architect – Associate (SAA-C03). 65 questions, 130 minutes, 100-1000 scaled scoring, domain competency breakdown.">
+<style>
+:root{--bg:#f3f5f9;--card:#fff;--text:#18202e;--muted:#667085;--line:#e0e5ee;--accent:#ff9900;--accent-d:#d97f00;--accent-bg:#fff3de;--ok:#12805c;--okbg:#e4f6ee;--bad:#c0352b;--badbg:#fdeceb;--nav:#232f3e;--shadow:0 1px 3px rgba(16,24,40,.08),0 4px 14px rgba(16,24,40,.05);--r:14px}
+:root[data-theme=dark]{--bg:#0f131a;--card:#1a212c;--text:#e8ecf2;--muted:#98a2b3;--line:#2b3442;--accent-bg:#3a2d14;--ok:#4cc79a;--okbg:#12342a;--bad:#ff8077;--badbg:#3a1d1b;--nav:#0a0e14;--shadow:0 1px 3px rgba(0,0,0,.4)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+/* top bar */
+header{position:sticky;top:0;z-index:20;background:var(--nav);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+header .in{display:flex;align-items:center;gap:14px;padding:10px clamp(14px,3vw,36px);min-height:56px}
+header h1{font-size:1.05rem;margin:0;cursor:pointer;white-space:nowrap}header h1 span{color:var(--accent)}
+#hdrMid{flex:1;min-width:0;display:flex;align-items:center;gap:14px}
+#hdrMid .ttl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#c8d0dc;font-size:.92rem}
+#hdrMid .prog{flex:1;max-width:420px;height:8px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden}
+#hdrMid .prog i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.timer{font:700 1.05rem ui-monospace,Menlo,monospace;background:rgba(255,255,255,.12);padding:5px 12px;border-radius:99px}
+.timer.low{background:var(--bad);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.7}}
+.ibtn{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.3);padding:6px 11px;border-radius:8px;font-size:.88rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.ibtn:hover{background:rgba(255,255,255,.12);border-color:#fff}
+main{width:100%;padding:clamp(14px,2.5vw,32px) clamp(14px,3vw,36px) 90px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:clamp(16px,2vw,28px);box-shadow:var(--shadow);margin-bottom:18px}
+h2{margin:0 0 .4em;font-size:1.5rem}h3{margin:0 0 .7em;font-size:1.1rem}
+.muted{color:var(--muted)}.small{font-size:.88rem}
+button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);padding:10px 18px;transition:.12s}
+button:hover:not(:disabled){border-color:var(--accent);transform:translateY(-1px)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#1b1200;font-weight:700}
+button.primary:hover:not(:disabled){background:var(--accent-d);border-color:var(--accent-d)}
+button.danger{color:var(--bad);border-color:var(--bad)}
+button:disabled{opacity:.45;cursor:not-allowed}
+kbd{font:600 .72rem ui-monospace,monospace;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;background:var(--bg);color:var(--muted)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.spacer{flex:1}
+select{font:inherit;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text)}
+/* home */
+.hero{background:linear-gradient(120deg,#232f3e,#37475a);color:#fff;border:0}
+.hero p{color:#cfd6e2;margin:.2em 0 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:18px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
+.stat b{display:block;font-size:1.9rem;line-height:1.1}
+.home{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:18px;align-items:start}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.mode{text-align:left;padding:18px;display:flex;flex-direction:column;gap:4px;border-width:2px}
+.mode .ic{font-size:1.7rem}.mode b{font-size:1.05rem}
+.mode.feat{background:var(--accent-bg);border-color:var(--accent)}
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden}.bar>i{display:block;height:100%;border-radius:99px;transition:width .5s}
+.g{background:var(--ok)}.y{background:var(--accent)}.r{background:var(--bad)}
+table{width:100%;border-collapse:collapse}td,th{padding:9px 8px;text-align:left;border-bottom:1px solid var(--line);font-size:.92rem}th{color:var(--muted);font-weight:600}
+.pass{color:var(--ok)}.fail{color:var(--bad)}
+/* exam */
+.exam{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start}
+.qtext,.expl{white-space:pre-line}.qtext{font-size:clamp(1.08rem,1.4vw,1.3rem);line-height:1.6;margin:.4em 0 1em}
+.opt{display:flex;gap:14px;align-items:flex-start;width:100%;text-align:left;margin:10px 0;padding:14px 16px;border-width:2px;font-size:1.02rem}
+.opt .l{flex:none;width:30px;height:30px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:.9rem;color:var(--muted)}
+.opt.multi-opt .l{border-radius:6px}
+.opt.sel{background:var(--accent-bg);border-color:var(--accent)}.opt.sel .l{background:var(--accent);border-color:var(--accent);color:#1b1200}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}.opt.ok .l{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.bad{background:var(--badbg);border-color:var(--bad)}.opt.bad .l{background:var(--bad);border-color:var(--bad);color:#fff}
+.opt[disabled]{opacity:1;cursor:default;transform:none!important}
+.tag{display:inline-block;font-size:.76rem;padding:3px 10px;border-radius:99px;background:var(--bg);border:1px solid var(--line);color:var(--muted);margin-right:6px}
+.tag.ok{background:var(--okbg);color:var(--ok);border-color:var(--ok)}
+.tag.m{background:var(--accent-bg);color:var(--accent-d);border-color:var(--accent)}
+.tag.pv{background:#232f3e;color:#ff9900;border-color:#232f3e;font-weight:700}
+.expl{margin-top:16px;padding:14px 16px;border-radius:10px;background:var(--bg);border-left:5px solid var(--accent)}
+.expl.ok{border-color:var(--ok)}.expl.bad{border-color:var(--bad)}
+.ex{white-space:normal;margin-top:10px}.ex h4{margin:12px 0 6px;font-size:.95rem}.ex h4:first-child{margin-top:0}
+.ex ul{margin:0;padding:0;list-style:none}.ex li{display:flex;gap:10px;align-items:flex-start;margin:7px 0;line-height:1.5}
+.ex .ans{padding:8px 12px;border-radius:8px;background:var(--okbg);font-weight:600;margin-bottom:6px}
+.chip{flex:none;min-width:26px;text-align:center;padding:1px 7px;border-radius:99px;font-size:.78rem;font-weight:700;background:var(--badbg);color:var(--bad);border:1px solid var(--bad)}
+.chip.g{background:var(--okbg);color:var(--ok);border-color:var(--ok)}
+.hint{padding:12px 14px;border-radius:10px;background:var(--accent-bg);border:1px solid var(--accent);margin-bottom:14px;font-size:.92rem}
+.side{position:sticky;top:76px}
+.pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px;max-height:46vh;overflow:auto;padding:2px}
+.pal button{padding:6px 0;font-size:.82rem;border-radius:8px;position:relative}
+.pal .done{background:var(--accent-bg);border-color:var(--accent)}
+.pal .cur{border-color:var(--text);box-shadow:0 0 0 2px var(--text)}
+.pal .flag::after{content:"⚑";position:absolute;top:-6px;right:-3px;font-size:.7rem;color:var(--bad)}
+.pal .r-ok{background:var(--okbg);border-color:var(--ok)}.pal .r-bad{background:var(--badbg);border-color:var(--bad)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin:10px 0}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid var(--line);vertical-align:-1px;margin-right:4px}
+.actions{position:sticky;bottom:0;margin:18px -4px -4px;padding:12px 4px 4px;background:linear-gradient(transparent,var(--card) 30%)}
+/* results */
+.ring{--p:0;width:150px;height:150px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center;flex:none}
+.ring div{width:118px;height:118px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:2.2rem;font-weight:800}
+.res{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.dom{margin:14px 0}.dom .row{margin-bottom:5px}
+/* Pearson VUE styles */
+.comp-table{width:100%;border-collapse:collapse;margin:12px 0}
+.comp-table th,.comp-table td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;font-size:.92rem}
+.comp-table th{color:var(--muted);font-weight:600}
+.comp-badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:.8rem;font-weight:700}
+.comp-badge.meets{background:var(--okbg);color:var(--ok);border:1px solid var(--ok)}
+.comp-badge.needs{background:var(--badbg);color:var(--bad);border:1px solid var(--bad)}
+.scaled-card{display:flex;align-items:center;gap:20px;padding:18px;background:var(--bg);border-radius:12px;margin:14px 0;border:1px solid var(--line)}
+.scaled-val{font-size:2.4rem;font-weight:900;line-height:1}
+/* modal */
+.ov{position:fixed;inset:0;background:rgba(10,14,20,.6);display:grid;place-items:center;z-index:50;padding:16px}
+.modal{background:var(--card);border-radius:var(--r);padding:24px;max-width:440px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:10px 16px 28px}
+@media(max-width:980px){.exam,.home,.res{grid-template-columns:1fr}.side{position:static}}
+@media(max-width:600px){header h1{font-size:.95rem}#hdrMid .ttl{display:none}.opt{padding:12px}.ring{width:120px;height:120px}.ring div{width:92px;height:92px;font-size:1.7rem}}
+</style>
+</head>
+<body>
+<header><div class="in">
+  <h1 id="logo" title="Home">AWS <span>SAA-C03</span> Simulator</h1>
+  <div id="hdrMid"></div>
+  <button class="ibtn" id="langToggle" title="Cambiar Idioma / Switch Language">🇦🇷 ES</button>
+  <a href="../" class="ibtn" id="btnBackPortal" title="Volver al Portal de Estudio Diario">📖 Portal Diario</a>
+  <button class="ibtn" id="theme" title="Toggle dark mode" aria-label="Toggle dark mode">🌓</button>
+</div></header>
+<main id="app"></main>
+<footer id="footerText">Simulador de examen de práctica para AWS Certified Solutions Architect – Associate (SAA-C03). Los resultados se guardan localmente en tu navegador.</footer>
+<script src="questions.js?v=20261116"></script>
+<script src="questions_es.js?v=20261116"></script>
+<script src="affiliates.js?v=20261116"></script>
+<script>
+"use strict";
+
+const urlLang = new URLSearchParams(window.location.search).get("lang");
+let currentLang = (urlLang === "es" || urlLang === "en")
+  ? urlLang
+  : (localStorage.getItem("saa_language") || "es");
+localStorage.setItem("saa_language", currentLang);
+
+let Q = (currentLang === "es" && window.QUESTIONS_ES) ? window.QUESTIONS_ES : (window.QUESTIONS || []);
+const app = document.getElementById("app"), mid = document.getElementById("hdrMid");
+
+// Official SAA-C03 Blueprint Domains
+const OFFICIAL_DOMAINS = [
+  { id: "Domain 1", name: "Domain 1: Design Secure Architectures", weight: 30, qCount: 20 },
+  { id: "Domain 2", name: "Domain 2: Design Resilient Architectures", weight: 26, qCount: 17 },
+  { id: "Domain 3", name: "Domain 3: Design High-Performing Architectures", weight: 24, qCount: 15 },
+  { id: "Domain 4", name: "Domain 4: Design Cost-Optimized Architectures", weight: 20, qCount: 13 }
+];
+
+const DOMAIN_I18N = {
+  es: {
+    "Domain 1: Design Secure Architectures": "Dominio 1: Diseño de Arquitecturas Seguras",
+    "Domain 2: Design Resilient Architectures": "Dominio 2: Diseño de Arquitecturas Resilientes",
+    "Domain 3: Design High-Performing Architectures": "Dominio 3: Diseño de Arquitecturas de Alto Rendimiento",
+    "Domain 4: Design Cost-Optimized Architectures": "Dominio 4: Diseño de Arquitecturas Optimizadas en Costos"
+  },
+  en: {
+    "Domain 1: Design Secure Architectures": "Domain 1: Design Secure Architectures",
+    "Domain 2: Design Resilient Architectures": "Domain 2: Design Resilient Architectures",
+    "Domain 3: Design High-Performing Architectures": "Domain 3: Design High-Performing Architectures",
+    "Domain 4: Design Cost-Optimized Architectures": "Domain 4: Design Cost-Optimized Architectures"
+  }
+};
+function getDomainName(name) {
+  return (DOMAIN_I18N[currentLang] && DOMAIN_I18N[currentLang][name]) || name;
+}
+
+let DOM = {};
+function refreshModules() {
+  DOM = {};
+  Q.forEach(q => { DOM[q.module] = q.module; });
+}
+refreshModules();
+
+const PASS = 0.72, PASS_SCALED = 720, KEY = "saa-c03-history-v1", DRAFT = "saa-c03-draft-v1", THEME = "saa-c03-theme", QS = "saa-c03-qstats-v1", RV = "saa-c03-reviews-v1", BACKUP = "saa-c03-last-backup";
+let S = null, timerId = null;
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const store = {
+  get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+  del(k) { try { localStorage.removeItem(k); } catch {} }
+};
+const fmt = s => { s = Math.max(0, s); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return (h ? h + ":" : "") + String(m).padStart(2, "0") + ":" + String(x).padStart(2, "0"); };
+const fmtLong = s => s >= 3600 ? Math.floor(s / 3600) + "h " + Math.floor(s % 3600 / 60) + "m" : Math.floor(s / 60) + "m";
+const isRight = (q, sel) => !!sel && sel.length === q.answer.length && q.answer.every(a => sel.includes(a));
+const TK = q => q.module;
+const TL = k => k;
+const L = i => "ABCDEF"[i];
+const cls = p => p >= 72 ? "g" : p >= 55 ? "y" : "r";
+
+const I18N = {
+  es: {
+    langBtn: "🇦🇷 ES",
+    langBtnTitle: "Idioma actual: Español (Argentina) · Clic para cambiar a English",
+    portalLink: "📖 Portal Diario",
+    footerText: "Simulador de examen de práctica para AWS Certified Solutions Architect – Associate (SAA-C03). Los resultados se guardan localmente en tu navegador.",
+    heroTitle: "AWS Certified Solutions Architect – Associate (SAA-C03) Simulador",
+    heroSub: n => `${n} preguntas de escenario arquitectónico oficial • Distribución por 4 Dominios Pearson VUE (100–1000 escala oficial, 720 corte de aprobación).`,
+    backupAlert: n => `💾 Tenés ${n} intentos guardados en este navegador. Exportá una copia de seguridad para conservarlos.`,
+    exportBackup: "Exportar respaldo",
+    importBackup: "Importar respaldo",
+    clearHistory: "Limpiar historial",
+    draftTitle: "Tenés un examen en curso",
+    draftSub: (title, ans, total, left) => `${title} · ${ans}/${total} respondidas${left ? " · " + left + " restantes" : ""}`,
+    discard: "Descartar",
+    resume: "Continuar ▶",
+    statAttempts: "Intentos Realizados",
+    statBest: "Mejor Puntaje Escalado",
+    statAvg: "Promedio Escalado",
+    statPool: "Banco Practicado",
+    statCorrect: "✅ Correctas",
+    statWeak: "❌ Por Reforzar",
+    statTime: "Tiempo de Práctica",
+    modesTitle: "Modalidades de Examen",
+    modeFullTitle: "⏱️ Simulación Oficial Pearson VUE",
+    modeFullDesc: "65 preguntas balanceadas según blueprint oficial (30% Secure, 26% Resilient, 24% High-Perf, 20% Cost-Opt) · 130 min · Escala 100-1000 (Pase: 720).",
+    modeQuickTitle: "⚡ Práctica Rápida (20 Qs)",
+    modeQuickDesc: "20 preguntas aleatorias de alta complejidad · sin límite de tiempo · feedback inmediato",
+    modeAllTitle: n => `📚 Banco Completo (${n} Qs)`,
+    modeAllDesc: "Todas las preguntas del simulador en modo continuo · feedback inmediato",
+    modeWeakTitle: "🎯 Entrenamiento de Puntos Débiles",
+    modeWeakDescReady: (missed, weakest) => `${missed} pregunta${missed === 1 ? "" : "s"} fallada(s) para repasar${weakest ? " · área más débil: " + weakest : ""}`,
+    modeWeakDescEmpty: "Disponible luego de tu primer intento",
+    domainsTitle: "Práctica por Dominios Oficiales SAA-C03",
+    domainsSub: "Entrená de forma focalizada en cada uno de los 4 dominios de la certificación oficial de Amazon Web Services.",
+    domainsTag: "Blueprint Oficial",
+    domainWeight: (w, q, t) => `Ponderación Oficial: <b>${w}%</b> (${q} preguntas en examen real) · Banco: ${t} preguntas disponibles`,
+    domainDrill: (id, q) => `Drill ${id} (${q} Qs)`,
+    modulesTitle: "Práctica por Módulo Técnico",
+    modDone: "✅ Completado",
+    modSeen: (s, t) => `${s}/${t} vistas`,
+    modPending: "Pendiente",
+    modStart: "Iniciar",
+    modCont: "Continuar",
+    recResources: "📚 Recursos Recomendados",
+    recFocus: f => `· para reforzar: ${f}`,
+    histTitle: "Historial y Evaluaciones de Competencia",
+    histEmpty: "No hay intentos registrados todavía. Al completar exámenes podrás ver tu puntaje escalado Pearson VUE y nivel de competencia por dominio.",
+    histRecent: "Últimos Exámenes",
+    thDate: "Fecha",
+    thExam: "Examen",
+    thScore: "Aciertos",
+    thScaled: "Escalado",
+    thStatus: "Estado",
+    thTime: "Tiempo",
+    thReview: "Revisar",
+    statusPass: "APROBADO",
+    statusFail: "NO APROB.",
+    // Exam
+    answeredOf: (a, t) => `${a}/${t} respondidas`,
+    timeRemaining: "restante",
+    timeElapsed: "empleado",
+    btnPause: "⏸ Pausar",
+    btnResume: "▶ Reanudar",
+    btnSaveQuit: "Guardar y salir",
+    pausedTitle: "⏸ Examen pausado",
+    pausedText: "El temporizador está detenido. Las preguntas no se muestran durante la pausa.",
+    pausedTime: "Tiempo empleado:",
+    pausedLeft: "Tiempo restante:",
+    pausedResumeBtn: "▶ Continuar examen <kbd>P</kbd>",
+    qNumber: (i, t) => `Pregunta ${i} de ${t}`,
+    selectOptions: n => `Seleccioná ${n} opciones`,
+    flagActive: "⚑ Marcada",
+    flagInactive: "⚐ Marcar para revisión",
+    multiHint: n => `<b>⚠️ Pregunta de Selección Múltiple (Pearson VUE):</b> Debés seleccionar exactamente <b>${n}</b> opciones. No se otorga puntaje parcial si falta alguna opción correcta.`,
+    btnPrev: "← Anterior",
+    btnNext: "Siguiente →",
+    btnCheck: "Verificar respuesta",
+    btnFinish: "Finalizar examen",
+    qMap: "Mapa de Preguntas",
+    answeredLegend: "Respondida",
+    unansweredLegend: "Sin responder",
+    flaggedLegend: "Marcada",
+    statMapSub: (a, p, f) => `${a} respondidas · ${p} pendientes · ${f} marcadas`,
+    btnScore: "Finalizar y Calificar",
+    shortcuts: "Teclas rápidas: <kbd>A</kbd>–<kbd>F</kbd> elegir · <kbd>←</kbd><kbd>→</kbd> navegar · <kbd>M</kbd> marcar · <kbd>P</kbd> pausar",
+    // Modals
+    confirmFinishTitle: "¿Finalizar examen y obtener calificación?",
+    confirmFinishMsg: (un, fl) => `${un ? `<b class="fail">${un} preguntas sin responder</b>. ` : "Todas las preguntas han sido respondidas. "}${fl ? `<b>${fl} marcadas</b> para revisión. ` : ""}Una vez finalizado se generará tu reporte de competencias Pearson VUE.`,
+    btnContinueReview: "Continuar revisando",
+    btnFinishModal: "Finalizar y Ver Calificación",
+    confirmDiscardTitle: "¿Descartar examen no finalizado?",
+    confirmDiscardText: "Esta acción no se puede deshacer.",
+    btnCancel: "Cancelar",
+    confirmClearTitle: "¿Limpiar historial?",
+    confirmClearText: "Se borrarán todas las evaluaciones guardadas en este navegador.",
+    btnDelete: "Borrar",
+    importSuccessTitle: "Importación Completa",
+    importSuccessMsg: n => `${n} intento(s) importados exitosamente.`,
+    btnAccept: "Aceptar",
+    importFailTitle: "Fallo en Importación",
+    importFailMsg: "El archivo no es válido.",
+    // Results
+    resultsTitle: "Reporte de Calificación",
+    resultsPass: "✅ PASS / APROBADO",
+    resultsFail: "❌ DID NOT PASS / NO APROBADO",
+    scaledScoreTitle: "Puntaje Escalado:",
+    correctCount: (c, t, p) => `<b>${c} de ${t}</b> preguntas correctas (${p}%)`,
+    timeDetails: (e, perQ, left) => `⏱ <b>${e}</b> empleados · ${perQ}s por pregunta${left ? " · " + left + " restantes" : ""}`,
+    minPassingText: "Puntaje mínimo oficial de certificación AWS SAA-C03: <b>720 / 1000</b> (Escala Pearson VUE: 100-1000).",
+    btnRetryIncorrect: n => `Reintentar las ${n} incorrectas`,
+    btnNewExam: "Nuevo Examen",
+    btnHome: "Inicio",
+    btnPortal: "📖 Portal de Estudio Diario",
+    compTableTitle: "Evaluación de Competencia por Dominio (Pearson VUE)",
+    thCompDomain: "Dominio de Examen",
+    thCompWeight: "Blueprint",
+    thCompHits: "Aciertos",
+    thCompPct: "%",
+    thCompStatus: "Estado de Competencia",
+    compMeets: "Meets Competency",
+    compNeeds: "Needs Improvement",
+    detailedReviewTitle: "Revisión Detallada de Respuestas",
+    filterAll: n => `Todas las preguntas (${n})`,
+    filterWrong: n => `Solo Incorrectas (${n})`,
+    filterFlag: n => `Marcadas para revisión (${n})`,
+    emptyFilter: "No hay preguntas para el filtro seleccionado.",
+    yourAnswer: "(tu respuesta)",
+    qCorrect: "✅ Correcto",
+    qIncorrect: "❌ Incorrecto",
+    qUnanswered: "⚠ Sin responder",
+    officialAnswer: "Respuesta oficial:",
+    explCorrectTitle: n => `✅ Respuesta${n > 1 ? "s" : ""} correcta${n > 1 ? "s" : ""}`,
+    explWhyTitle: "💡 Por qué es correcta",
+    explOthersTitle: "❌ Por qué las otras opciones no aplican",
+    // Weak plan
+    wpTitle: "🎯 Entrenamiento de Puntos Débiles",
+    wpSub: "Preguntas falladas en tus intentos previos para repasar y consolidar.",
+    wpNoAttempts: "sin intentos",
+    wpAccuracy: "precisión",
+    wpToReview: n => `❌ ${n} a repasar`,
+    wpUpToDate: "al día",
+    wpStartBtn: n => `Iniciar práctica (${n} pregunta${n === 1 ? "" : "s"})`,
+    wpMinNote: extra => `incluye ${extra} preguntas adicionales para alcanzar el mínimo`,
+    wpBack: "Volver",
+    // Titles
+    titleFull: "Simulación Oficial Pearson VUE (65 Preguntas)",
+    titleQuick: "Práctica Rápida de Examen (20 Qs)",
+    titleAll: "Banco Completo de Preguntas",
+    titleRetry: "Reintento de Preguntas Incorrectas",
+    titleWeakDrill: (n, topics) => `Drill de refuerzo (${n} Qs · ${topics})`
+  },
+  en: {
+    langBtn: "🇺🇸 EN",
+    langBtnTitle: "Current language: English · Click to switch to Español (Argentina)",
+    portalLink: "📖 Daily Portal",
+    footerText: "Practice exam simulator for AWS Certified Solutions Architect – Associate (SAA-C03). Results are stored locally in your browser.",
+    heroTitle: "AWS Certified Solutions Architect – Associate (SAA-C03) Simulator",
+    heroSub: n => `${n} official architectural scenario questions • Distributed across 4 Pearson VUE Domains (100–1000 official scale, 720 passing score).`,
+    backupAlert: n => `💾 You have ${n} attempts saved in this browser. Export a backup to preserve them.`,
+    exportBackup: "Export backup",
+    importBackup: "Import backup",
+    clearHistory: "Clear history",
+    draftTitle: "You have an exam in progress",
+    draftSub: (title, ans, total, left) => `${title} · ${ans}/${total} answered${left ? " · " + left + " left" : ""}`,
+    discard: "Discard",
+    resume: "Resume ▶",
+    statAttempts: "Completed Attempts",
+    statBest: "Best Scaled Score",
+    statAvg: "Average Scaled Score",
+    statPool: "Question Bank Practiced",
+    statCorrect: "✅ Correct",
+    statWeak: "❌ To Review",
+    statTime: "Practice Time",
+    modesTitle: "Exam Modes",
+    modeFullTitle: "⏱️ Official Pearson VUE Simulation",
+    modeFullDesc: "65 questions balanced per official blueprint (30% Secure, 26% Resilient, 24% High-Perf, 20% Cost-Opt) · 130 min · 100-1000 Scale (Pass: 720).",
+    modeQuickTitle: "⚡ Quick Practice (20 Qs)",
+    modeQuickDesc: "20 random high-complexity questions · untimed · instant feedback",
+    modeAllTitle: n => `📚 Complete Question Bank (${n} Qs)`,
+    modeAllDesc: "All simulator questions in continuous mode · instant feedback",
+    modeWeakTitle: "🎯 Weak Areas Drill",
+    modeWeakDescReady: (missed, weakest) => `${missed} missed question${missed === 1 ? "" : "s"} to review${weakest ? " · weakest area: " + weakest : ""}`,
+    modeWeakDescEmpty: "Available after your first attempt",
+    domainsTitle: "Practice by Official SAA-C03 Domains",
+    domainsSub: "Focus your training on each of the 4 domains of the official Amazon Web Services certification.",
+    domainsTag: "Official Blueprint",
+    domainWeight: (w, q, t) => `Official Weight: <b>${w}%</b> (${q} questions on real exam) · Question Pool: ${t} available questions`,
+    domainDrill: (id, q) => `Drill ${id} (${q} Qs)`,
+    modulesTitle: "Practice by Technical Module",
+    modDone: "✅ Completed",
+    modSeen: (s, t) => `${s}/${t} seen`,
+    modPending: "Pending",
+    modStart: "Start",
+    modCont: "Continue",
+    recResources: "📚 Recommended Resources",
+    recFocus: f => `· to reinforce: ${f}`,
+    histTitle: "History & Competency Assessments",
+    histEmpty: "No attempts recorded yet. When you complete exams you will see your Pearson VUE scaled score and competency assessment by domain.",
+    histRecent: "Recent Exams",
+    thDate: "Date",
+    thExam: "Exam",
+    thScore: "Correct",
+    thScaled: "Scaled",
+    thStatus: "Status",
+    thTime: "Time",
+    thReview: "Review",
+    statusPass: "PASS",
+    statusFail: "DID NOT PASS",
+    // Exam
+    answeredOf: (a, t) => `${a}/${t} answered`,
+    timeRemaining: "left",
+    timeElapsed: "elapsed",
+    btnPause: "⏸ Pause",
+    btnResume: "▶ Resume",
+    btnSaveQuit: "Save & Quit",
+    pausedTitle: "⏸ Exam Paused",
+    pausedText: "The timer is stopped. Questions are hidden while paused.",
+    pausedTime: "Time elapsed:",
+    pausedLeft: "Time left:",
+    pausedResumeBtn: "▶ Resume Exam <kbd>P</kbd>",
+    qNumber: (i, t) => `Question ${i} of ${t}`,
+    selectOptions: n => `Select ${n} options`,
+    flagActive: "⚑ Flagged",
+    flagInactive: "⚐ Flag for review",
+    multiHint: n => `<b>⚠️ Multiple Selection Question (Pearson VUE):</b> You must select exactly <b>${n}</b> options. No partial credit is awarded.`,
+    btnPrev: "← Previous",
+    btnNext: "Next →",
+    btnCheck: "Check answer",
+    btnFinish: "Finish exam",
+    qMap: "Question Map",
+    answeredLegend: "Answered",
+    unansweredLegend: "Unanswered",
+    flaggedLegend: "Flagged",
+    statMapSub: (a, p, f) => `${a} answered · ${p} pending · ${f} flagged`,
+    btnScore: "Finish and Score",
+    shortcuts: "Shortcuts: <kbd>A</kbd>–<kbd>F</kbd> select · <kbd>←</kbd><kbd>→</kbd> navigate · <kbd>M</kbd> flag · <kbd>P</kbd> pause",
+    // Modals
+    confirmFinishTitle: "Finish exam and calculate score?",
+    confirmFinishMsg: (un, fl) => `${un ? `<b class="fail">${un} unanswered questions</b>. ` : "All questions have been answered. "}${fl ? `<b>${fl} flagged</b> for review. ` : ""}Once finished, your Pearson VUE competency report will be generated.`,
+    btnContinueReview: "Continue reviewing",
+    btnFinishModal: "Finish and View Score",
+    confirmDiscardTitle: "Discard unfinished exam?",
+    confirmDiscardText: "This action cannot be undone.",
+    btnCancel: "Cancel",
+    confirmClearTitle: "Clear history?",
+    confirmClearText: "All saved evaluations in this browser will be deleted.",
+    btnDelete: "Delete",
+    importSuccessTitle: "Import Completed",
+    importSuccessMsg: n => `${n} attempt(s) successfully imported.`,
+    btnAccept: "OK",
+    importFailTitle: "Import Failed",
+    importFailMsg: "The file is invalid.",
+    // Results
+    resultsTitle: "Score Report",
+    resultsPass: "✅ PASS / APROBADO",
+    resultsFail: "❌ DID NOT PASS / NO APROBADO",
+    scaledScoreTitle: "Scaled Score:",
+    correctCount: (c, t, p) => `<b>${c} of ${t}</b> questions correct (${p}%)`,
+    timeDetails: (e, perQ, left) => `⏱ <b>${e}</b> elapsed · ${perQ}s per question${left ? " · " + left + " left" : ""}`,
+    minPassingText: "Official AWS SAA-C03 certification passing score: <b>720 / 1000</b> (Pearson VUE Scale: 100-1000).",
+    btnRetryIncorrect: n => `Retry ${n} incorrect questions`,
+    btnNewExam: "New Exam",
+    btnHome: "Home",
+    btnPortal: "📖 Daily Study Portal",
+    compTableTitle: "Competency Assessment by Domain (Pearson VUE)",
+    thCompDomain: "Exam Domain",
+    thCompWeight: "Blueprint",
+    thCompHits: "Correct",
+    thCompPct: "%",
+    thCompStatus: "Competency Status",
+    compMeets: "Meets Competency",
+    compNeeds: "Needs Improvement",
+    detailedReviewTitle: "Detailed Answer Review",
+    filterAll: n => `All questions (${n})`,
+    filterWrong: n => `Incorrect Only (${n})`,
+    filterFlag: n => `Flagged for review (${n})`,
+    emptyFilter: "No questions match the selected filter.",
+    yourAnswer: "(your answer)",
+    qCorrect: "✅ Correct",
+    qIncorrect: "❌ Incorrect",
+    qUnanswered: "⚠ Unanswered",
+    officialAnswer: "Official answer:",
+    explCorrectTitle: n => `✅ Correct answer${n > 1 ? "s" : ""}`,
+    explWhyTitle: "💡 Why it's right",
+    explOthersTitle: "❌ Why the other options don't fit",
+    // Weak plan
+    wpTitle: "🎯 Weak Areas Drill",
+    wpSub: "Review and reinforce questions you missed in prior attempts.",
+    wpNoAttempts: "no attempts",
+    wpAccuracy: "accuracy",
+    wpToReview: n => `❌ ${n} to review`,
+    wpUpToDate: "up to date",
+    wpStartBtn: n => `Start practice (${n} question${n === 1 ? "" : "s"})`,
+    wpMinNote: extra => `includes ${extra} additional questions to reach minimum`,
+    wpBack: "Back",
+    // Titles
+    titleFull: "Official Pearson VUE Simulation (65 Questions)",
+    titleQuick: "Quick Practice Exam (20 Qs)",
+    titleAll: "Complete Question Bank",
+    titleRetry: "Retry Incorrect Questions",
+    titleWeakDrill: (n, topics) => `Reinforcement Drill (${n} Qs · ${topics})`
+  }
+};
+
+function updateLangButton() {
+  const t = I18N[currentLang];
+  const btn = document.getElementById("langToggle");
+  const footer = document.getElementById("footerText");
+  const backPortal = document.getElementById("btnBackPortal");
+  if (btn) {
+    btn.innerHTML = t.langBtn;
+    btn.title = t.langBtnTitle;
+  }
+  if (footer) footer.textContent = t.footerText;
+  if (backPortal) backPortal.textContent = t.portalLink;
+}
+
+function toggleLanguage() {
+  const nextLang = currentLang === "es" ? "en" : "es";
+  setLanguage(nextLang);
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem("saa_language", currentLang);
+  try {
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set("lang", currentLang);
+    window.history.replaceState({}, "", newUrl.toString());
+  } catch {}
+
+  Q = (currentLang === "es" && window.QUESTIONS_ES) ? window.QUESTIONS_ES : (window.QUESTIONS || []);
+  refreshModules();
+  updateLangButton();
+
+  // If in active session
+  if (S && S.qs && S.qs.length) {
+    S.qs = S.qs.map(oldQ => {
+      const match = Q.find(q => q.id === oldQ.id);
+      if (!match) return oldQ;
+      return {
+        ...match,
+        order: oldQ.order || Object.keys(match.options)
+      };
+    });
+    const t = I18N[currentLang];
+    if (S.mode === "full") S.title = t.titleFull;
+    else if (S.mode === "quick") S.title = t.titleQuick;
+    else if (S.mode === "domain") S.title = `Drill: ${getDomainName(S.d)} (${S.qs.length} Qs)`;
+    else if (S.mode === "topic") S.title = `${currentLang === 'es' ? 'Módulo' : 'Module'}: ${S.d}`;
+    else if (S.mode === "all") S.title = t.titleAll;
+    else if (S.mode === "retry") S.title = t.titleRetry;
+    else if (S.mode === "weak") S.title = t.titleWeakDrill(S.qs.length, (S.dKeys || []).map(TL).join(", "));
+    save();
+    if (S.finished) {
+      const filter = document.getElementById("flt") ? document.getElementById("flt").value : "all";
+      results(filter);
+    } else {
+      render();
+    }
+  } else {
+    if (document.getElementById("wrows")) {
+      showWeakPlan();
+    } else {
+      home();
+    }
+  }
+}
+
+function explHtml(q) {
+  const t = I18N[currentLang];
+  const right = q.answer.map(a => `<li><span class="chip g">${a}</span><span>${esc(q.options[a])}</span></li>`).join("");
+  const why = (q.why || []).map(w => `<li><span>•</span><span>${esc(w)}</span></li>`).join("");
+  const oth = (q.others || []).map(o => `<li><span class="chip">${o.l.join(" ")}</span><span>${esc(o.t)}</span></li>`).join("");
+  if (!right) return `<p>${esc(q.explanation)}</p>`;
+  return `<div class="ex"><h4>${t.explCorrectTitle(q.answer.length)}</h4><ul>${right}</ul>${why ? `<h4>${t.explWhyTitle}</h4><ul>${why}</ul>` : ""}${oth ? `<h4>${t.explOthersTitle}</h4><ul>${oth}</ul>` : ""}</div>`;
+}
+
+/* theme */
+function applyTheme(t) { if (t) document.documentElement.dataset.theme = t; }
+applyTheme(store.get(THEME, matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light"));
+document.getElementById("theme").onclick = () => { const t = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; applyTheme(t); store.set(THEME, t); };
+document.getElementById("logo").onclick = () => { if (!S || S.finished || confirm("Leave this exam? Progress is saved and can be resumed.")) { save(); home(); } };
+document.getElementById("langToggle").onclick = toggleLanguage;
+
+/* modal */
+function modal(html, buttons) {
+  return new Promise(res => {
+    const o = document.createElement("div"); o.className = "ov";
+    o.innerHTML = `<div class="modal" role="dialog" aria-modal="true">${html}<div class="row" style="margin-top:20px;justify-content:flex-end">${buttons.map((b, i) => `<button data-i="${i}" class="${b.cls || ""}">${b.t}</button>`).join("")}</div></div>`;
+    document.body.appendChild(o); S && (S.modal = true);
+    const done = v => { o.remove(); S && (S.modal = false); res(v); };
+    o.querySelectorAll("button").forEach(b => b.onclick = () => done(buttons[b.dataset.i].v));
+    o.onclick = e => { if (e.target === o) done(false); };
+    o.querySelector("button.primary,button").focus();
+  });
+}
+
+/* HOME */
+function home() {
+  clearInterval(timerId); S = null; mid.innerHTML = "";
+  const t = I18N[currentLang];
+  const hist = store.get(KEY, []), draft = store.get(DRAFT, null);
+  try { navigator.storage?.persist?.(); } catch {}
+  const stale = hist.length >= 3 && Date.now() - store.get(BACKUP, 0) > 14 * 864e5;
+  const stK = store.get(QS, {}), seenK = Q.filter(q => stK[q.id]), okAns = seenK.filter(q => stK[q.id].last === 1).length;
+  const wp = weakPlan(), best = hist.length ? Math.max(...hist.map(r => r.scaledScore || Math.round(100 + (r.pct/100)*900))) : null;
+  const avg = hist.length ? Math.round(hist.reduce((a, r) => a + (r.scaledScore || Math.round(100 + (r.pct/100)*900)), 0) / hist.length) : null;
+  app.innerHTML = `
+  <div class="card hero"><h2>${t.heroTitle}</h2>
+    <p>${t.heroSub(Q.length)}</p></div>
+  ${stale ? `<div class="card" style="border-color:var(--accent)"><div class="row"><span>${t.backupAlert(hist.length)}</span><span class="spacer"></span><button class="primary" id="exp2">${t.exportBackup}</button></div></div>` : ""}
+  ${draft ? `<div class="card" style="border-color:var(--accent)"><div class="row"><div><b>${t.draftTitle}</b><br><span class="muted small">${t.draftSub(esc(draft.title), Object.keys(draft.ans).length, draft.qs.length, draft.limit ? fmt(draft.left) : "")}</span></div><span class="spacer"></span>
+    <button id="discard" class="danger">${t.discard}</button><button class="primary" id="resume">${t.resume}</button></div></div>` : ""}
+  <div class="stats">
+    <div class="stat"><span class="muted small">${t.statAttempts}</span><b>${hist.length}</b></div>
+    <div class="stat"><span class="muted small">${t.statBest}</span><b>${best ? best + " / 1000" : "–"}</b></div>
+    <div class="stat"><span class="muted small">${t.statAvg}</span><b>${avg ? avg + " / 1000" : "–"}</b></div>
+    <div class="stat" title="Preguntas distintas respondidas al menos una vez"><span class="muted small">${t.statPool}</span><b>${seenK.length}<span class="muted" style="font-size:.9rem;font-weight:500"> / ${Q.length}</span></b></div>
+    <div class="stat" title="Preguntas cuya respuesta más reciente fue correcta"><span class="muted small">${t.statCorrect}</span><b class="pass">${okAns}</b></div>
+    <div class="stat" title="Preguntas con error en último intento"><span class="muted small">${t.statWeak}</span><b class="fail">${seenK.length - okAns}</b></div>
+    <div class="stat"><span class="muted small">${t.statTime}</span><b>${fmtLong(hist.reduce((a, r) => a + (r.secs || 0), 0))}</b></div>
+  </div>
+  <div class="home"><div>
+    <div class="card"><h3>${t.modesTitle}</h3><div class="modes">
+      <button class="mode feat" data-m="full"><span class="ic">⏱️</span><b>${t.modeFullTitle}</b><span class="muted small">${t.modeFullDesc}</span></button>
+      <button class="mode" data-m="quick"><span class="ic">⚡</span><b>${t.modeQuickTitle}</b><span class="muted small">${t.modeQuickDesc}</span></button>
+      <button class="mode" data-m="all"><span class="ic">📚</span><b>${t.modeAllTitle(Q.length)}</b><span class="muted small">${t.modeAllDesc}</span></button>
+      <button class="mode" data-m="weak"><span class="ic">🎯</span><b>${t.modeWeakTitle}</b><span class="muted small">${wp.ready ? t.modeWeakDescReady(wp.totalMissed, wp.weakest.length ? wp.weakest.map(w => TL(w.k) + " (" + w.p + "%)").join(", ") : "") : t.modeWeakDescEmpty}</span></button>
+    </div></div>
+    
+    <div class="card">
+      <div class="row"><h3 style="margin:0">${t.domainsTitle}</h3><span class="spacer"></span><span class="tag pv">${t.domainsTag}</span></div>
+      <p class="muted small" style="margin:4px 0 14px;">${t.domainsSub}</p>
+      ${OFFICIAL_DOMAINS.map(od => officialDomainRow(od)).join("")}
+    </div>
+
+    <div class="card"><h3>${t.modulesTitle}</h3>
+      ${Object.entries(DOM).map(([k, v]) => domRow(k, v)).join("")}
+    </div></div>
+    ${resourcesHtml()}
+    <div class="card"><h3>${t.histTitle}</h3>${histHtml(hist)}</div>
+  </div>`;
+  app.querySelectorAll("[data-m]").forEach(b => b.onclick = () => start(b.dataset.m, b.dataset.d));
+  const wk = app.querySelector('[data-m=weak]'); if (wk && !wp.ready) wk.disabled = true;
+  if (draft) {
+    document.getElementById("resume").onclick = () => {
+      S = draft;
+      S.paused = false;
+      S.elapsed = S.elapsed || 0;
+      S.qs = S.qs.map(oldQ => {
+        const match = Q.find(q => q.id === oldQ.id);
+        return match ? { ...match, order: oldQ.order || Object.keys(match.options) } : oldQ;
+      });
+      runTimer();
+      render();
+    };
+    document.getElementById("discard").onclick = async () => {
+      if (await modal(`<h3>${t.confirmDiscardTitle}</h3><p>${t.confirmDiscardText}</p>`, [{ t: t.btnCancel, v: false }, { t: t.discard, v: true, cls: "danger" }])) {
+        store.del(DRAFT);
+        home();
+      }
+    };
+  }
+  app.querySelectorAll("[data-rv]").forEach(b => b.onclick = () => reviewAttempt(+b.dataset.rv));
+  const ex = document.getElementById("exp"); if (ex) ex.onclick = exportHist;
+  const e2 = document.getElementById("exp2"); if (e2) e2.onclick = () => { exportHist(); home(); };
+  const im = document.getElementById("imp"); if (im) im.onclick = importHist;
+  const clr = document.getElementById("clr");
+  if (clr) clr.onclick = async () => { if (await modal(`<h3>${t.confirmClearTitle}</h3><p>${t.confirmClearText}</p>`, [{ t: t.btnCancel, v: false }, { t: t.btnDelete, v: true, cls: "danger" }])) { store.del(KEY); home(); } };
+  window.scrollTo(0, 0);
+}
+
+function officialDomainRow(od) {
+  const t = I18N[currentLang];
+  const qs = Q.filter(q => q.domain && q.domain.startsWith(od.id)), tot = qs.length, st = store.get(QS, {});
+  const seen = qs.filter(q => st[q.id]).length;
+  const cov = tot > 0 ? Math.round(100 * seen / tot) : 0;
+  const dName = getDomainName(od.name);
+  return `
+    <div style="padding:14px 0;border-bottom:1px solid var(--line)">
+      <div class="row">
+        <div>
+          <b>${esc(dName)}</b>
+          <div class="muted small">${t.domainWeight(od.weight, od.qCount, tot)}</div>
+        </div>
+        <span class="spacer"></span>
+        <button class="primary" data-m="domain" data-d="${esc(od.name)}">${t.domainDrill(od.id, od.qCount)}</button>
+      </div>
+      <div class="bar" style="margin-top:8px;height:6px"><i class="${cls(cov)}" style="width:${cov}%"></i></div>
+    </div>
+  `;
+}
+
+function domRow(k, v) {
+  const t = I18N[currentLang];
+  const qs = Q.filter(q => TK(q) === k), tot = qs.length, st = store.get(QS, {}), hist = store.get(KEY, []);
+  const seen = qs.filter(q => st[q.id]).length, a = aggregate(hist)[k], pct = a && a[1] ? Math.round(100 * a[0] / a[1]) : null;
+  const done = tot > 0 && seen >= tot, cov = done ? 100 : Math.round(100 * seen / tot);
+  const badge = done ? `<span class="tag ok">${t.modDone}</span>` : seen || pct != null ? `<span class="tag m">${t.modSeen(seen, tot)}</span>` : `<span class="tag">${t.modPending}</span>`;
+  return `<div style="padding:10px 0;border-bottom:1px solid var(--line)"><div class="row"><span><b>${esc(v)}</b></span>${badge}<span class="spacer"></span>${pct != null ? `<b class="${pct >= 72 ? "pass" : "fail"}" title="Precisión">${pct}%</b>` : ""}<span class="muted small">${tot} Qs</span><button data-m="topic" data-d="${esc(k)}">${seen ? t.modCont : t.modStart}</button></div><div class="bar" style="margin-top:6px;height:5px"><i class="${done ? "g" : "y"}" style="width:${cov}%"></i></div></div>`;
+}
+
+function resourcesHtml(focus) {
+  const t = I18N[currentLang];
+  const all = (window.AFFILIATES || []).filter(a => a && a.title && /^https:\/\//.test(a.url));
+  if (!all.length) return "";
+  const rel = focus ? all.filter(a => (a.topics || []).includes(focus)) : [];
+  const list = rel.concat(all.filter(a => !rel.includes(a))).slice(0, 3);
+  return `<div class="card"><h3>${t.recResources}${focus && rel.length ? ` <span class="muted small">${t.recFocus(esc(focus))}</span>` : ""}</h3>
+    <ul style="margin:0 0 10px;padding-left:20px">${list.map(a => `<li style="margin:6px 0"><a href="${esc(a.url)}" target="_blank" rel="sponsored noopener noreferrer"><b>${esc(a.title)}</b></a>${a.desc ? ` <span class="muted">· ${esc(a.desc)}</span>` : ""}</li>`).join("")}</ul></div>`;
+}
+
+function aggregate(h) { const agg = {}; h.forEach(r => Object.entries(r.byTopic || r.byDomain || {}).forEach(([d, v]) => { (agg[d] ??= [0, 0]); agg[d][0] += v[0]; agg[d][1] += v[1]; })); return agg; }
+
+function reviewAttempt(date) {
+  const r = store.get(KEY, []).find(x => x.date === date), rv = store.get(RV, {})[date];
+  if (!r || !rv) return;
+  const items = rv.ids.map((id, i) => ({ q: Q.find(q => q.id === id), a: rv.ans[i], f: (rv.flags || []).includes(i) })).filter(x => x.q);
+  const ans = {}, flags = []; items.forEach((x, j) => { if (x.a) ans[j] = x.a; if (x.f) flags.push(j); });
+  const scaledScore = r.scaledScore || Math.round(100 + (r.pct / 100) * 900);
+  const pass = r.pass ?? (scaledScore >= PASS_SCALED);
+  S = { title: r.title + " · " + new Date(r.date).toLocaleDateString(), feedback: false, limit: 0, left: 0, elapsed: r.secs || 0, paused: false, i: 0, flags, ans, revealed: {}, finished: true, date: r.date,
+        qs: items.map(x => ({ ...x.q, order: Object.keys(x.q.options) })), result: { correct: r.correct, total: r.total, pct: r.pct, scaledScore, pass, byDomain: r.byDomain || {}, byTopic: r.byTopic || {} } };
+  results("all");
+}
+
+function histHtml(h) {
+  const t = I18N[currentLang];
+  if (!h.length) return `<p class="muted">${t.histEmpty}</p><button id="imp" class="small">⬆ ${t.importBackup}</button>`;
+  const rvs0 = store.get(RV, {}), rows = h.slice().reverse().slice(0, 10).map(r => {
+    const sc = r.scaledScore || Math.round(100 + (r.pct / 100) * 900);
+    const passed = r.pass ?? (sc >= PASS_SCALED);
+    return `<tr><td>${new Date(r.date).toLocaleDateString()}</td><td>${esc(r.title)}</td><td>${r.correct}/${r.total}</td><td><b>${sc}</b>/1000</td><td class="${passed ? "pass" : "fail"}"><b>${passed ? t.statusPass : t.statusFail}</b></td><td>${r.secs != null ? fmt(r.secs) : "–"}</td><td>${rvs0[r.date] ? `<button class="small" data-rv="${r.date}">${t.thReview}</button>` : `–`}</td></tr>`;
+  }).join("");
+  return `<h3 class="muted small" style="font-weight:600">${t.histRecent}</h3><table><tr><th>${t.thDate}</th><th>${t.thExam}</th><th>${t.thScore}</th><th>${t.thScaled}</th><th>${t.thStatus}</th><th>${t.thTime}</th><th></th></tr>${rows}</table>
+  <div class="row" style="margin-top:14px"><button id="exp" class="small">⬇ ${t.exportBackup}</button><button id="imp" class="small">⬆ ${t.importBackup}</button><button id="clr" class="small danger">${t.clearHistory}</button></div>`;
+}
+
+function exportHist() {
+  const blob = new Blob([JSON.stringify({ app: "saa-c03-simulator", version: 2, exported: new Date().toISOString(), history: store.get(KEY, []), qstats: store.get(QS, {}), reviews: store.get(RV, {}) }, null, 2)], { type: "application/json" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "saa-c03-results-" + new Date().toISOString().slice(0, 10) + ".json";
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); store.set(BACKUP, Date.now());
+}
+
+function importHist() {
+  const t = I18N[currentLang];
+  const f = document.createElement("input"); f.type = "file"; f.accept = "application/json,.json";
+  f.onchange = async () => {
+    try {
+      const d = JSON.parse(await f.files[0].text());
+      if (!Array.isArray(d.history)) throw 0;
+      const cur = store.get(KEY, []), seen = new Set(cur.map(r => r.date + r.title)), add = d.history.filter(r => !seen.has(r.date + r.title));
+      store.set(KEY, cur.concat(add).sort((a, b) => a.date - b.date));
+      if (d.reviews) store.set(RV, { ...store.get(RV, {}), ...d.reviews });
+      if (d.qstats) store.set(QS, { ...store.get(QS, {}), ...d.qstats });
+      home();
+      modal(`<h3>${t.importSuccessTitle}</h3><p>${t.importSuccessMsg(add.length)}</p>`, [{ t: t.btnAccept, v: true, cls: "primary" }]);
+    } catch { modal(`<h3>${t.importFailTitle}</h3><p>${t.importFailMsg}</p>`, [{ t: t.btnAccept, v: true, cls: "primary" }]); }
+  };
+  f.click();
+}
+
+/* BALANCED OFFICIAL EXAM GENERATOR */
+function pickOfficialExam() {
+  const d1 = shuffle(Q.filter(q => (q.domain || "").startsWith("Domain 1"))).slice(0, 20);
+  const d2 = shuffle(Q.filter(q => (q.domain || "").startsWith("Domain 2"))).slice(0, 17);
+  const d3 = shuffle(Q.filter(q => (q.domain || "").startsWith("Domain 3"))).slice(0, 15);
+  const d4 = shuffle(Q.filter(q => (q.domain || "").startsWith("Domain 4"))).slice(0, 13);
+  return shuffle([...d1, ...d2, ...d3, ...d4]);
+}
+
+/* START */
+function start(mode, d) {
+  let qs, title, feedback = true, limit = 0;
+  const t = I18N[currentLang];
+  if (mode === "full") {
+    qs = pickOfficialExam();
+    title = t.titleFull;
+    feedback = false;
+    limit = 130 * 60;
+  }
+  else if (mode === "quick") {
+    qs = shuffle(Q).slice(0, 20);
+    title = t.titleQuick;
+  }
+  else if (mode === "domain") {
+    const targetDomain = OFFICIAL_DOMAINS.find(od => od.name === d);
+    const count = targetDomain ? targetDomain.qCount : 20;
+    qs = shuffle(Q.filter(q => q.domain === d)).slice(0, count);
+    title = `Drill: ${getDomainName(d)} (${qs.length} Qs)`;
+  }
+  else if (mode === "topic") {
+    const st = store.get(QS, {});
+    qs = shuffle(Q.filter(q => q.module === d)).sort((a, b) => !!st[a.id] - !!st[b.id]);
+    title = `${currentLang === 'es' ? 'Módulo' : 'Module'}: ${d}`;
+  }
+  else if (mode === "all") {
+    qs = shuffle(Q);
+    title = t.titleAll;
+  }
+  else if (mode === "weak") {
+    showWeakPlan();
+    return;
+  }
+  begin(qs, title, feedback, limit, mode, d);
+}
+
+function begin(qs, title, feedback = true, limit = 0, mode = null, d = null, dKeys = null) {
+  S = {
+    title, feedback, limit, left: limit, elapsed: 0, paused: false, i: 0, flags: [], ans: {}, revealed: {}, finished: false, date: Date.now(),
+    mode, d, dKeys,
+    qs: qs.map(q => ({ ...q, order: Object.keys(q.options) }))
+  };
+  runTimer(); render();
+}
+
+function weakPlan() {
+  const hist = store.get(KEY, []).slice(-5), st = store.get(QS, {}), agg = aggregate(hist);
+  const keys = [...new Set(Q.map(TK))];
+  const acc = k => {
+    if (agg[k] && agg[k][1] >= 3) return agg[k][0] / agg[k][1];
+    const seen = Q.filter(q => TK(q) === k && st[q.id]);
+    return seen.length >= 3 ? seen.filter(q => st[q.id].last === 1).length / seen.length : null;
+  };
+  const rows = keys.map(k => {
+    const qs = Q.filter(q => TK(q) === k);
+    return { k, acc: acc(k), total: qs.length, seen: qs.filter(q => st[q.id]).length,
+             missed: qs.filter(q => st[q.id] && st[q.id].last === 0).sort((a, b) => st[b.id].w - st[a.id].w) };
+  }).sort((a, b) => (a.acc ?? 1.01) - (b.acc ?? 1.01) || b.missed.length - a.missed.length);
+  const weakest = rows.filter(r => r.acc != null && r.acc < .85).slice(0, 3).map(r => ({ k: r.k, p: Math.round(100 * r.acc) }));
+  return { rows, weakest, totalMissed: rows.reduce((a, r) => a + r.missed.length, 0), ready: hist.length > 0 || Object.keys(st).length > 0 };
+}
+
+function drillFor(rows, keys, cap = 50, min = 10) {
+  const use = rows.filter(r => keys.includes(r.k)), st = store.get(QS, {});
+  const picks = [].concat(...use.map(r => r.missed)).slice(0, cap), have = new Set(picks.map(q => q.id));
+  const pools = use.map(r => shuffle(Q.filter(q => TK(q) === r.k && !have.has(q.id)))
+    .sort((a, b) => (!!st[a.id] - !!st[b.id]) || ((st[a.id] || {}).t - (st[b.id] || {}).t) || 0));
+  for (let i = 0; picks.length < min && pools.some(p => p.length); i++) { const p = pools[i % pools.length]; if (p.length) picks.push(p.shift()); }
+  return picks;
+}
+
+function showWeakPlan() {
+  const t = I18N[currentLang];
+  const wp = weakPlan(); mid.innerHTML = `<span class="ttl">${t.wpTitle}</span><span class="spacer"></span><button class="ibtn" id="wback">${t.wpBack}</button>`;
+  const on = new Set(wp.rows.filter(r => r.missed.length || (r.acc != null && r.acc < .85)).map(r => r.k));
+  if (!on.size && wp.rows.length) on.add(wp.rows[0].k);
+  const label = k => TL(k) + (DOM[k] && DOM[k] !== k ? " · " + DOM[k] : "");
+  app.innerHTML = `<div class="card"><h2>${t.wpTitle}</h2>
+    <p class="muted" style="margin-top:0">${t.wpSub}</p>
+    <div id="wrows">${wp.rows.map(r => { const p = r.acc == null ? null : Math.round(100 * r.acc);
+      return `<label class="row" style="padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer;align-items:flex-start">
+        <input type="checkbox" data-k="${esc(r.k)}" ${on.has(r.k) ? "checked" : ""} style="margin-top:5px;width:18px;height:18px">
+        <div style="flex:1;min-width:180px"><b>${esc(label(r.k))}</b>
+          <div class="bar" style="margin-top:6px;height:6px"><i class="${p == null ? "y" : cls(p)}" style="width:${p == null ? 0 : p}%"></i></div></div>
+        <div style="min-width:130px;text-align:right">${p == null ? `<span class="muted small">${t.wpNoAttempts}</span>` : `<b class="${p >= 72 ? "pass" : "fail"}">${p}%</b> <span class="muted small">${t.wpAccuracy}</span>`}<br>
+          <span class="${r.missed.length ? "fail" : "muted"} small">${r.missed.length ? t.wpToReview(r.missed.length) : t.wpUpToDate}</span></div></label>`; }).join("")}</div>
+    <div class="row" style="margin-top:16px"><button class="primary" id="wgo"></button><button id="wback2">${t.wpBack}</button>
+      <span class="muted small" id="wnote"></span></div></div>`;
+  const sel = () => [...app.querySelectorAll("#wrows input:checked")].map(i => i.dataset.k);
+  const refresh = () => { const ks = sel(), n = drillFor(wp.rows, ks).length, miss = wp.rows.filter(r => ks.includes(r.k)).reduce((a, r) => a + Math.min(r.missed.length, 50), 0);
+    const b = document.getElementById("wgo"); b.disabled = !n; b.textContent = t.wpStartBtn(n);
+    document.getElementById("wnote").textContent = n && miss < n ? t.wpMinNote(n - miss) : ""; };
+  app.querySelectorAll("#wrows input").forEach(i => i.onchange = refresh); refresh();
+  document.getElementById("wgo").onclick = () => { const ks = sel(), qs = drillFor(wp.rows, ks);
+    begin(qs, t.titleWeakDrill(qs.length, ks.map(TL).join(", ")), true, 0, "weak", null, ks); };
+  document.getElementById("wback").onclick = document.getElementById("wback2").onclick = home;
+  window.scrollTo(0, 0);
+}
+
+function paint() {
+  const t = I18N[currentLang];
+  const el = document.getElementById("timer");
+  if (el) { el.textContent = "⏱ " + (S.limit ? fmt(S.left) + " " + t.timeRemaining : fmt(S.elapsed)); el.classList.toggle("low", !!S.limit && S.left < 600); }
+  const e2 = document.getElementById("elapsed"); if (e2) e2.textContent = t.timeElapsed + " " + fmt(S.elapsed);
+}
+
+function runTimer() {
+  clearInterval(timerId); if (S.finished || S.paused) return;
+  S.elapsed = S.elapsed || 0;
+  let last = Date.now();
+  timerId = setInterval(() => {
+    const now = Date.now(), dt = Math.floor((now - last) / 1000); if (!dt) return;
+    last += dt * 1000; S.elapsed += dt; if (S.limit) S.left -= dt;
+    paint(); if (S.elapsed % 10 < dt) save();
+    if (S.limit && S.left <= 0) finish();
+  }, 500);
+}
+
+function togglePause() {
+  if (!S || S.finished) return;
+  if (S.paused) { S.paused = false; runTimer(); }
+  else { S.paused = true; clearInterval(timerId); }
+  save(); render();
+}
+
+function save() { if (S && !S.finished) store.set(DRAFT, S); }
+
+/* EXAM */
+function render() {
+  if (S.finished) return;
+  const t = I18N[currentLang];
+  const q = S.qs[S.i], sel = S.ans[S.i] || [], rev = S.feedback && S.revealed[S.i], n = S.qs.length, ord = q.order;
+  const answered = Object.keys(S.ans).length;
+  mid.innerHTML = `<span class="ttl">${esc(S.title)}</span><div class="prog" title="${t.answeredOf(answered, n)}"><i style="width:${100 * answered / n}%"></i></div><span class="small" style="color:#c8d0dc;white-space:nowrap">${answered}/${n}</span>
+    <span class="spacer"></span>${S.limit ? `<span class="small" id="elapsed" style="color:#c8d0dc;white-space:nowrap">${t.timeElapsed} ${fmt(S.elapsed || 0)}</span>` : ""}<span class="timer ${S.paused ? "low" : S.limit && S.left < 600 ? "low" : ""}" id="timer" title="${S.limit ? t.timeRemaining : t.timeElapsed}">⏱ ${S.limit ? fmt(S.left) : fmt(S.elapsed || 0)}</span><button class="ibtn" id="pause" title="${t.btnPause}">${S.paused ? t.btnResume : t.btnPause}</button><button class="ibtn" id="quit">${t.btnSaveQuit}</button>`;
+  const pb = document.getElementById("pause"); if (pb) pb.onclick = togglePause;
+  if (S.paused) {
+    app.innerHTML = `<div class="card" style="max-width:560px;margin:8vh auto;text-align:center"><h2>${t.pausedTitle}</h2>
+      <p class="muted">${t.pausedText}</p>
+      <p><b>${t.pausedTime}</b> ${fmt(S.elapsed || 0)}${S.limit ? " · <b>" + t.pausedLeft + "</b> " + fmt(S.left) : ""}<br><span class="muted small">${t.answeredOf(Object.keys(S.ans).length, n)}</span></p>
+      <div class="row" style="justify-content:center"><button class="primary" id="resume2">${t.pausedResumeBtn}</button></div></div>`;
+    document.getElementById("resume2").onclick = togglePause;
+    document.getElementById("quit").onclick = () => { save(); home(); };
+    return;
+  }
+  const ok = isRight(q, sel);
+  const domainLabel = q.domain ? getDomainName(q.domain).split(":")[0] : q.module;
+  app.innerHTML = `<div class="exam"><div>
+    <div class="card" style="margin:0">
+      <div class="row">
+        <span class="tag">${t.qNumber(S.i + 1, n)}</span>
+        <span class="tag pv">${esc(domainLabel)}</span>
+        <span class="tag">${esc(q.module)}</span>
+        ${q.multi ? `<span class="tag m">${t.selectOptions(q.answer.length)}</span>` : ""}
+        <span class="spacer"></span>
+        <button id="flag" class="small" aria-pressed="${S.flags.includes(S.i)}">${S.flags.includes(S.i) ? t.flagActive : t.flagInactive} <kbd>M</kbd></button>
+      </div>
+      <p class="qtext">${esc(q.q)}</p>
+      ${q.multi ? `<div class="hint">${t.multiHint(q.answer.length)}</div>` : ""}
+      <div role="${q.multi ? "group" : "radiogroup"}">${ord.map((k, idx) => {
+        let c = sel.includes(k) ? "sel" : "";
+        if (rev) c = q.answer.includes(k) ? "ok" : (sel.includes(k) ? "bad" : "");
+        const indicator = q.multi ? (sel.includes(k) ? "☑" : "☐") : L(idx);
+        return `<button class="opt ${q.multi ? "multi-opt" : ""} ${c}" data-k="${k}" role="${q.multi ? "checkbox" : "radio"}" aria-checked="${sel.includes(k)}"${rev ? " disabled" : ""}><span class="l">${rev && q.answer.includes(k) ? "✓" : rev && sel.includes(k) ? "✗" : indicator}</span><span>${esc(q.options[k])}</span></button>`;
+      }).join("")}</div>
+      ${rev ? `<div class="expl ${ok ? "ok" : "bad"}"><b>${ok ? t.qCorrect : t.qIncorrect}</b> · ${t.officialAnswer} ${q.answer.map(a => L(ord.indexOf(a))).sort().join(", ")}${explHtml(q)}</div>` : ""}
+      <div class="actions row">
+        <button id="prev"${S.i ? "" : " disabled"}>${t.btnPrev} <kbd>←</kbd></button><span class="spacer"></span>
+        ${S.feedback && !rev ? `<button id="check" class="primary"${(q.multi ? sel.length === q.answer.length : sel.length > 0) ? "" : " disabled"}>${t.btnCheck} <kbd>↵</kbd></button>` : ""}
+        ${S.i < n - 1 ? `<button id="next" class="${S.feedback && !rev ? "" : "primary"}">${t.btnNext} <kbd>→</kbd></button>` : `<button class="primary" id="end">${t.btnFinish}</button>`}
+      </div>
+    </div></div>
+    <aside class="side card" style="margin:0"><h3>${t.qMap}</h3>
+      <div class="pal">${S.qs.map((_, j) => `<button data-j="${j}" aria-label="Pregunta ${j + 1}" class="${[S.ans[j] ? "done" : "", S.flags.includes(j) ? "flag" : "", j === S.i ? "cur" : ""].join(" ")}">${j + 1}</button>`).join("")}</div>
+      <div class="legend"><span><i style="background:var(--accent-bg);border-color:var(--accent)"></i>${t.answeredLegend}</span><span><i></i>${t.unansweredLegend}</span><span style="color:var(--bad)">⚑ ${t.flaggedLegend}</span></div>
+      <p class="muted small" style="margin:6px 0 14px">${t.statMapSub(answered, n - answered, S.flags.length)}</p>
+      <button class="primary" id="end2" style="width:100%">${t.btnScore}</button>
+      <p class="muted small" style="margin:12px 0 0">${t.shortcuts}</p>
+    </aside></div>`;
+  app.querySelectorAll(".opt").forEach(b => b.onclick = () => choose(b.dataset.k));
+  app.querySelectorAll(".pal button").forEach(b => b.onclick = () => go(+b.dataset.j));
+  const on = (id, f) => { const e = document.getElementById(id); if (e) e.onclick = f; };
+  on("prev", () => go(S.i - 1)); on("next", () => go(S.i + 1)); on("flag", toggleFlag); on("check", checkAns);
+  on("quit", () => { save(); home(); }); on("end", tryFinish); on("end2", tryFinish);
+  const cur = app.querySelector(".pal .cur"); if (cur) cur.scrollIntoView({ block: "nearest" });
+}
+
+function choose(k) {
+  const q = S.qs[S.i]; if (S.feedback && S.revealed[S.i]) return;
+  let a = S.ans[S.i] || [];
+  if (q.multi) {
+    if (a.includes(k)) {
+      a = a.filter(x => x !== k);
+    } else {
+      if (a.length >= q.answer.length) {
+        const hintEl = document.querySelector(".hint");
+        if (hintEl) {
+          hintEl.style.transition = "transform .15s";
+          hintEl.style.transform = "scale(1.02)";
+          setTimeout(() => { hintEl.style.transform = "none"; }, 180);
+        }
+        return;
+      }
+      a = [...a, k];
+    }
+  } else {
+    a = [k];
+  }
+  a.length ? S.ans[S.i] = a : delete S.ans[S.i]; save(); render();
+}
+
+function canCheckAns() {
+  const q = S.qs[S.i], sel = S.ans[S.i] || [];
+  return q.multi ? sel.length === q.answer.length : sel.length > 0;
+}
+function toggleFlag() { const f = S.flags.indexOf(S.i); f < 0 ? S.flags.push(S.i) : S.flags.splice(f, 1); save(); render(); }
+function checkAns() { if (S.feedback && canCheckAns() && !S.revealed[S.i]) { S.revealed[S.i] = true; save(); render(); } }
+function go(i) { if (i < 0 || i >= S.qs.length) return; S.i = i; save(); render(); window.scrollTo({ top: 0 }); }
+
+async function tryFinish() {
+  const t = I18N[currentLang];
+  const un = S.qs.length - Object.keys(S.ans).length, fl = S.flags.length;
+  const msg = `<h3>${t.confirmFinishTitle}</h3><p>${t.confirmFinishMsg(un, fl)}</p>`;
+  if (await modal(msg, [{ t: t.btnContinueReview, v: false }, { t: t.btnFinishModal, v: true, cls: "primary" }])) finish();
+}
+
+document.addEventListener("keydown", e => {
+  if (!S || S.finished || S.modal || e.ctrlKey || e.metaKey || e.altKey || /select|input|textarea/i.test(e.target.tagName)) return;
+  if (e.key.toLowerCase() === "p") { togglePause(); e.preventDefault(); return; }
+  if (S.paused) return;
+  const k = e.key.toLowerCase(), q = S.qs[S.i], idx = "abcdef".indexOf(k);
+  if (idx >= 0 && idx < q.order.length) { choose(q.order[idx]); e.preventDefault(); }
+  else if (k === "arrowright") go(S.i + 1);
+  else if (k === "arrowleft") go(S.i - 1);
+  else if (k === "m") toggleFlag();
+  else if (k === "enter" && e.target.tagName !== "BUTTON") { if (S.feedback && !S.revealed[S.i] && canCheckAns()) checkAns(); else go(S.i + 1); }
+});
+
+/* RESULTS */
+function finish() {
+  clearInterval(timerId); S.finished = true; S.paused = false; store.del(DRAFT);
+  const byDomain = {}; const byTopic = {}; let correct = 0;
+  S.qs.forEach((q, i) => {
+    const ok = isRight(q, S.ans[i]);
+    const dName = q.domain || "Domain 3: Design High-Performing Architectures";
+    (byDomain[dName] ??= [0, 0])[1]++;
+    (byTopic[q.module] ??= [0, 0])[1]++;
+    if (ok) {
+      correct++;
+      byDomain[dName][0]++;
+      byTopic[q.module][0]++;
+    }
+  });
+  const total = S.qs.length;
+  const pct = Math.round(100 * correct / total);
+  const scaledScore = Math.round(100 + (correct / total) * 900);
+  const pass = scaledScore >= PASS_SCALED;
+
+  const h = store.get(KEY, []);
+  h.push({ date: S.date, title: S.title, correct, total, pct, scaledScore, pass, secs: S.elapsed || 0, byDomain, byTopic });
+  store.set(KEY, h);
+
+  const rvs = store.get(RV, {});
+  rvs[S.date] = { ids: S.qs.map(q => q.id), ans: S.ans, flags: S.flags };
+  Object.keys(rvs).sort((a, b) => b - a).slice(30).forEach(k => delete rvs[k]);
+  store.set(RV, rvs);
+
+  const st = store.get(QS, {}), now = Date.now();
+  S.qs.forEach((q, i) => {
+    if (!S.ans[i]) return;
+    const ok = isRight(q, S.ans[i]), s = st[q.id] || { w: 0, c: 0 };
+    ok ? s.c++ : s.w++;
+    s.last = ok ? 1 : 0;
+    s.t = now;
+    st[q.id] = s;
+  });
+  store.set(QS, st);
+
+  S.result = { correct, total, pct, scaledScore, pass, byDomain, byTopic };
+  results("all");
+}
+
+function results(filter) {
+  const t = I18N[currentLang];
+  const { correct, total, pct, scaledScore, pass, byDomain, byTopic } = S.result;
+  document.querySelector(".ov")?.remove();
+  mid.innerHTML = `<span class="ttl">${t.resultsTitle} · ${esc(S.title)}</span><span class="spacer"></span><button class="ibtn" id="home">${t.btnHome}</button>`;
+  
+  const items = S.qs.map((q, i) => ({ q, i, ok: isRight(q, S.ans[i]) })).filter(x => {
+    if (filter === "all") return true;
+    if (filter === "wrong") return !x.ok;
+    if (filter === "flag") return S.flags.includes(x.i);
+    if (filter.startsWith("d:")) return x.q.domain === filter.slice(2);
+    return true;
+  });
+
+  app.innerHTML = `<div class="res">
+    <div class="card" style="margin:0">
+      <div class="row" style="gap:24px; align-items:center;">
+        <div class="ring" style="--p:${pct};--c:var(--${pass ? "ok" : "bad"})">
+          <div class="${pass ? "pass" : "fail"}">${pct}%</div>
+        </div>
+        <div style="flex:1">
+          <div style="display:inline-block; padding:4px 12px; border-radius:99px; font-weight:800; font-size:.85rem; background:var(--${pass ? "okbg" : "badbg"}); color:var(--${pass ? "ok" : "bad"}); border:1px solid var(--${pass ? "ok" : "bad"}); margin-bottom:6px;">
+            ${pass ? t.resultsPass : t.resultsFail}
+          </div>
+          <h2 style="margin:2px 0 6px;">${t.scaledScoreTitle} <span style="color:var(--${pass ? "ok" : "bad"})">${scaledScore}</span> / 1000</h2>
+          <p style="margin:.2em 0">${t.correctCount(correct, total, pct)}</p>
+          <p style="margin:.2em 0">${t.timeDetails(fmt(S.elapsed || 0), Math.round((S.elapsed || 0) / total), S.limit ? fmt(Math.max(S.left, 0)) : null)}</p>
+          <p class="muted small" style="margin:.2em 0">${t.minPassingText}</p>
+        </div>
+      </div>
+      <div class="row" style="margin-top:18px">
+        ${correct < total ? `<button class="primary" id="retry">${t.btnRetryIncorrect(total - correct)}</button>` : ""}
+        <button class="primary" id="again">${t.btnNewExam}</button>
+        <button id="home2">${t.btnHome}</button>
+        <a href="../" class="btn primary" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; padding:10px 18px; border-radius:10px; background:var(--nav); color:#fff; border:1px solid var(--line);">${t.btnPortal}</a>
+      </div>
+    </div>
+
+    <div class="card" style="margin:0">
+      <div class="row"><h3 style="margin:0">${t.compTableTitle}</h3><span class="spacer"></span><span class="tag pv">Oficial</span></div>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>${t.thCompDomain}</th>
+            <th>${t.thCompWeight}</th>
+            <th>${t.thCompHits}</th>
+            <th>${t.thCompPct}</th>
+            <th>${t.thCompStatus}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${OFFICIAL_DOMAINS.map(od => {
+            const stats = byDomain[od.name] || [0, 0];
+            const p = stats[1] ? Math.round(100 * stats[0] / stats[1]) : 0;
+            const meets = p >= 72;
+            return `
+              <tr>
+                <td><b>${esc(getDomainName(od.name))}</b></td>
+                <td class="muted">${od.weight}%</td>
+                <td>${stats[0]} / ${stats[1]}</td>
+                <td><b class="${meets ? "pass" : "fail"}">${p}%</b></td>
+                <td>
+                  <span class="comp-badge ${meets ? "meets" : "needs"}">
+                    ${meets ? t.compMeets : t.compNeeds}
+                  </span>
+                </td>
+              </tr>
+            `;
+          }).join("")}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px"><div class="row"><h3 style="margin:0">${t.detailedReviewTitle}</h3><span class="spacer"></span>
+    <select id="flt" aria-label="Filtrar">
+      <option value="all">${t.filterAll(total)}</option>
+      <option value="wrong">${t.filterWrong(total - correct)}</option>
+      <option value="flag">${t.filterFlag(S.flags.length)}</option>
+      ${OFFICIAL_DOMAINS.map(od => `<option value="d:${od.name}">${od.id} (${(byDomain[od.name] || [0,0])[1]} Qs)</option>`).join("")}
+    </select></div>
+    <div class="pal" style="margin-top:14px;max-height:none">${S.qs.map((q, j) => `<button class="${isRight(q, S.ans[j]) ? "r-ok" : "r-bad"} ${S.flags.includes(j) ? "flag" : ""}" data-j="${j}">${j + 1}</button>`).join("")}</div></div>
+  ${items.map(({ q, i, ok }) => { const sel = S.ans[i] || [];
+    return `<div class="card" id="q${i}"><span class="tag">Q${i + 1}</span><span class="tag pv">${esc(q.domain ? getDomainName(q.domain).split(":")[0] : q.module)}</span><span class="tag">${esc(q.module)}</span><b class="${ok ? "pass" : "fail"}">${ok ? t.qCorrect : sel.length ? t.qIncorrect : t.qUnanswered}</b>
+    <p class="qtext" style="font-size:1.08rem">${esc(q.q)}</p>${q.order.map((k, idx) => `<div class="opt ${q.answer.includes(k) ? "ok" : sel.includes(k) ? "bad" : ""}"><span class="l">${q.answer.includes(k) ? "✓" : sel.includes(k) ? "✗" : L(idx)}</span><span>${esc(q.options[k])}${sel.includes(k) ? ` <i class='muted'>${t.yourAnswer}</i>` : ""}</span></div>`).join("")}
+    <div class="expl ${ok ? "ok" : "bad"}">${explHtml(q)}</div></div>`; }).join("") || `<div class="card muted">${t.emptyFilter}</div>`}`;
+
+  const f = document.getElementById("flt"); f.value = filter; f.onchange = () => results(f.value);
+  document.getElementById("home").onclick = document.getElementById("home2").onclick = home;
+  document.getElementById("again").onclick = home;
+  const rt = document.getElementById("retry"); if (rt) rt.onclick = () => begin(S.qs.filter((q, i) => !isRight(q, S.ans[i])), t.titleRetry, true, 0, "retry");
+  app.querySelectorAll(".pal button").forEach(b => b.onclick = () => { const e = document.getElementById("q" + b.dataset.j); e ? e.scrollIntoView({ behavior: "smooth", block: "start" }) : results("all"); });
+  window.scrollTo(0, 0);
+}
+
+updateLangButton();
+home();
+</script>
+</body>
+</html>

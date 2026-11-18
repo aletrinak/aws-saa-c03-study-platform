@@ -1,0 +1,48 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Assemble static site (matching Dockerfile layout)
+        run: |
+          mkdir -p _site/simulator _site/handbook _site/cheat-sheets
+          cp -r portal/* _site/
+          cp -r simulator/* _site/simulator/
+          cp -r handbook/* _site/handbook/
+          cp -r cheat-sheets/* _site/cheat-sheets/
+          cp handbook.pdf _site/handbook.pdf
+          cp AWS_SAA-C03_Guia_Maestra_Repaso_Final.pdf _site/AWS_SAA-C03_Guia_Maestra_Repaso_Final.pdf
+          touch _site/.nojekyll
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
